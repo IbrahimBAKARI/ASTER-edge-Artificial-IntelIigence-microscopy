@@ -1,0 +1,8 @@
+{
+  "complete_conditions": 360,
+  "patients": 30,
+  "same_crops_all_levels": true,
+  "baseline_shared_between_families": true,
+  "summary_recomputed": true,
+  "notebook_executed_all_cells": true
+}

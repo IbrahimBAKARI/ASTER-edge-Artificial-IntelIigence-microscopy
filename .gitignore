@@ -27,6 +27,8 @@ results/**/_run_workspace/
 
 # data that is not distributed with this repository (see docs/DATA.md)
 external_data/
+experiments/**/dataset_staging/
+experiments/**/results/reproduction/
 
 # OS
 .DS_Store

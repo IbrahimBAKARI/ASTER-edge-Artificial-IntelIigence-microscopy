@@ -1,0 +1,10 @@
+numpy
+pandas
+scipy
+matplotlib
+Pillow
+PyYAML
+torch
+torchvision
+ultralytics==8.4.53
+jupyter

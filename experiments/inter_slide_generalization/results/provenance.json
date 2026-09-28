@@ -1,0 +1,47 @@
+{
+  "schema": "aster-inter-slide-generalization-v1",
+  "created_utc": "2026-09-27T19:44:38.467838+00:00",
+  "protocol": {
+    "training": false,
+    "threshold_tuning_on_external_slides": false,
+    "weights": "models/yolo/wbc_detector.pt",
+    "weights_sha256": "5253be6be234b956fa0da9af575949b155b9e47917fb79301d5cb62f8a2d39a1",
+    "adaptation_imgsz": 960,
+    "evaluation_imgsz": 960,
+    "ap_confidence_floor": 0.001,
+    "deployment_confidence": 0.18,
+    "nms_iou": 0.5,
+    "tp_iou": 0.5,
+    "class_ids": [
+      0
+    ],
+    "device": "mps",
+    "batch": 8,
+    "validator": "Ultralytics DetectionValidator"
+  },
+  "environment": {
+    "python": "3.12.14",
+    "torch": "2.14.0",
+    "ultralytics": "8.4.53",
+    "numpy": "2.5.3",
+    "mps_available": true
+  },
+  "slides": [
+    {
+      "slide_id": "unseen_slide_1",
+      "source": "external_data/unseen_slides/unseen_slide_1",
+      "images": 79,
+      "reference_wbc": 127,
+      "image_names_sha256": "5120a456653ed36263977832786c2c104a48de937907d00d590262f79996dc5c",
+      "label_contents_sha256": "f9c37132ad782cf0b673c1bd279761d075ac0bb128c94577c07e53c594b83802"
+    },
+    {
+      "slide_id": "unseen_slide_2",
+      "source": "external_data/unseen_slides/unseen_slide_2",
+      "images": 80,
+      "reference_wbc": 114,
+      "image_names_sha256": "515ea08ef38f1c361024f9d7e24035889214df67103d398023349a96b6231a8f",
+      "label_contents_sha256": "363eef32b8538c2619670c6d02d67b2be4c1fd136d398b3c6c2c75e7836bba26"
+    }
+  ]
+}

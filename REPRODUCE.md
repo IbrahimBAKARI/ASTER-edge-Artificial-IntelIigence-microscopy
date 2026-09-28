@@ -65,8 +65,20 @@ Source of truth: [`localizer_adaptation/05_mixedreplay_x40_colab.ipynb`](localiz
 ```bash
 python localizer_adaptation/make_x40_split.py      # prototype split (needs ASTER_X40_RAW)
 python localizer_adaptation/eval_on_x40_test.py --weights models/yolo/wbc_detector.pt \
-    --tag deployed --device cpu                     # held-out 104 test fields
+    --tag deployed --device cpu                     # 104-field within-slide evaluation split
 ```
+
+The post hoc controls added for release 1.1.0 are under [`experiments/`](experiments/):
+
+- `resolution_ablation/resolution_ablation_colab.ipynb` retrains the 640-pixel
+  control checkpoint and evaluates all three checkpoints at 640 and 960 pixels;
+- `ood_progressive_degradation/ood_progressive_degradation_mps.ipynb` evaluates
+  the frozen OOD gate under progressive blur and color perturbations;
+- `inter_slide_generalization/run_inter_slide_evaluation.py` evaluates the
+  frozen localizer on two entirely unseen slide folders.
+
+Each experiment README lists the external data layout. Public and prototype
+images are intentionally not redistributed.
 
 ## 4. Operating point and leukocyte yield
 

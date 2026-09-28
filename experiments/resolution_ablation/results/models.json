@@ -1,0 +1,20 @@
+{
+  "initial_640": {
+    "path": "<WORKDIR>/weights_inputs/base_640.pt",
+    "adaptation_imgsz": null,
+    "provenance": "historical_source_training",
+    "sha256": "c62ace9fe4f4be31ea01403e83584d4821324e4de231d456cfd90b1407b9c1e2"
+  },
+  "adapted_640": {
+    "path": "<COLAB_DRIVE_LLD>/resolution_ablation_v1/0708f017730c31a8/train_640/attempt_20260925T120620_912169Z/weights/best.pt",
+    "adaptation_imgsz": 640,
+    "provenance": "new_controlled_run",
+    "sha256": "cfdd772e2849855f35aa1380e34282d9e69551eec02c8a5f579fa45912faa34f"
+  },
+  "adapted_960": {
+    "path": "<WORKDIR>/weights_inputs/adapted_960_historical.pt",
+    "adaptation_imgsz": 960,
+    "provenance": "historical_adaptation",
+    "sha256": "5253be6be234b956fa0da9af575949b155b9e47917fb79301d5cb62f8a2d39a1"
+  }
+}

@@ -38,7 +38,7 @@ boxes), trained on the public LeukemiaAttri data only:
 Spearman correlation between public-test and prototype mAP@50: ρ = 0.51
 (p = 0.09). Per-recipe values: `results/derived/domain_transfer_12runs_with_x40_478.csv`.
 
-### 1.2 Adaptation, held-out prototype test split (104 fields, 171 boxes) — `results/x40_testsplit/`, `results/x40_threshold/selection.json`
+### 1.2 Adaptation, within-slide evaluation split (104 fields, 171 boxes) — `results/x40_testsplit/`, `results/x40_threshold/selection.json`
 
 | | Value |
 |---|---|
@@ -53,6 +53,32 @@ exp4/nonone) were both adapted; exp4/nonone was retained
 `domain_transfer_12runs.json`; the "after" LeukemiaAttri value was printed by the Colab
 adaptation notebook, whose run state is not part of this release.
 
+The 104 fields were excluded from gradient updates and threshold selection, but
+the recipe ranking used all 478 prototype fields and the two adapted candidates
+were compared on this split. It is therefore a within-slide evaluation split
+held out from fine-tuning, not a fully independent model-selection test.
+
+### 1.2a Post hoc resolution control — `experiments/resolution_ablation/`
+
+All checkpoints were evaluated with the same evaluator on the same 104 fields.
+The source detector scored 0.3722 at 640 pixels and 0.5015 at 960 pixels. A new
+mixed-replay checkpoint adapted and evaluated at 640 pixels scored 0.9679. The
+deployed 960-pixel checkpoint scored 0.9823 when evaluated at 960 pixels. Thus,
+evaluation resolution alone explains 0.1293 mAP@50, while adaptation at fixed
+640-pixel evaluation explains 0.5957. The 640- and 960-pixel adaptation runs
+were not identical repeats, so their difference does not isolate training
+resolution alone.
+
+### 1.2b Frozen inter-slide evaluation — `experiments/inter_slide_generalization/`
+
+The deployed localizer was frozen and evaluated without retraining or threshold
+adjustment on two additional educational smears acquired with the same ASTER
+setup. The pooled 159 fields contained 241 annotated WBCs. Pooled mAP@50 was
+0.9038 and mAP@50-95 was 0.6057. At the fixed deployment operating point
+(confidence 0.18, NMS IoU 0.50), precision was 0.9343 and recall was 0.7676
+(185 TP, 13 FP and 56 FN). Per-slide values are reported in the experiment
+directory. This is preliminary inter-slide evidence, not multi-site validation.
+
 ### 1.3 Operating point — `results/x40_threshold/selection.json`, `curves.csv`
 
 Maximum mean F1 on the 43-field prototype **validation** split (never the test
@@ -61,7 +87,7 @@ split), imgsz 960, NMS IoU ∈ {0.50, 0.60, 0.70}: **conf 0.18 / NMS IoU 0.50**
 
 ### 1.4 Leukocyte yield at native resolution — `results/leukocyte_yield/` (`evaluation/x40_yield.py`)
 
-104 held-out test fields; ground truth 171 boxes, 1.64 WBC per field. Greedy
+104 within-slide evaluation fields; ground truth 171 boxes, 1.64 WBC per field. Greedy
 matching at IoU ≥ 0.5.
 
 | conf | Detections | TP | FP | P | R | F1 | WBC/field (mean · sd) | Fields for 50 WBC |
@@ -238,11 +264,25 @@ Power, 300 s per mode, VDD_IN rail:
 | Net energy per analysis | 4.61 J |
 | Peak RAM · max GPU / CPU temperature | 2.97 GB · 54.9 / 55.2 °C |
 
+### 2.4a Progressive OOD perturbation control — `experiments/ood_progressive_degradation/`
+
+The frozen encoder, OOD statistics and threshold were evaluated on fixed
+200-crop bags from 20 cAItomorph stem-cell donors and 10 AML patients. Six
+levels each of Gaussian blur and combined desaturation/hue shift were applied
+without refitting. Under maximal blur, rejection increased from 1/20 to 20/20
+for donors and from 2/10 to 10/10 for AML. Under maximal color perturbation it
+increased to 9/20 and 5/10. Median within-patient Spearman correlations with
+perturbation severity were 1.000 for donors and 0.943/0.971 for AML under blur
+and color, respectively. Individual trajectories were not uniformly monotonic.
+This control demonstrates sensitivity to controlled image shifts; it does not
+identify a specific camera or microscope.
+
 ## 4. Limitations and open items
 
-- The prototype material is non-leukemic educational smears from one source,
-  acquired on one day: the gate's refusal is measured, sensitivity on the
-  target domain is not measurable.
+- The adaptation set comes from one non-leukemic educational smear. Frozen
+  evaluation on two additional smears provides preliminary inter-slide evidence,
+  but does not establish robustness across laboratories, staining protocols,
+  devices, operators or clinical populations.
 - The operating point (conf 0.18) was selected on the prototype validation
   split, not on an independent source-domain split.
 - In the campaigns of § 2.6 and § 3.1 block 1 ran on the PyTorch path; the

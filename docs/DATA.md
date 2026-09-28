@@ -9,13 +9,14 @@ authors on reasonable request.
 | Source | Content | Role in this work | Availability |
 |---|---|---|---|
 | Prototype-acquired fields (this work) | 478 fields, 4032 × 3040, 788 WBC boxes; non-leukemic educational smears | localizer adaptation (train 204 / val 43 / test 104 fields); out-of-domain stress test (351 fields); acquisition timing | **available from the authors on reasonable request** |
+| Additional unseen slides (this work) | 159 fields, 241 WBC boxes across two independently acquired educational smears | frozen inter-slide localizer evaluation only | **available from the authors on reasonable request** |
 | LeukemiaAttri [1] | multi-microscope, multi-magnification fields with WBC boxes; 47 patients in H_100X_C1 | localizer source domain and replay; cell-head training crops (sharpness ≥ 4); held-out out-of-domain sessions | from its authors [1] |
 | AML-Cytomorphology_MLL_Helmholtz [2] | 189 patients (129 AML, 60 controls), single-cell images with manual differentials | MIL training; τ, temperature, APL threshold, OOD and [REF] values (patient-level splits); differential validity | The Cancer Imaging Archive |
 | AML-Cytomorphology_LMU [3] | 18 365 single-cell images | cell-head training | The Cancer Imaging Archive |
 | PBC [4] | 17 092 single-cell images of normal cells | cell-head training (second scanner) | from its authors [4] |
 | MILLIE [5] | 8 286 labeled cells, 56 labeled patients | cell-head training (smudge cells, promyelocytes) | from its authors [5] |
 | ALL-IDB2 [6] | 260 single-cell images | cell-head training (lymphoblasts, low weight) | from its authors [6] |
-| cAItomorph test set [7] | 409 patients, 201 560 cells, median 500 per patient | held-out test of block 2 only | Nefeli RDM [7] |
+| cAItomorph test set [7] | 409 patients, 201 560 cells, median 500 per patient | held-out test of block 2; subsequent frozen OOD perturbation control on 30 fixed bags | Nefeli RDM [7] |
 | ALL-IDB L2 fields [6] | 9 fields, 95 detected WBCs | technical latency/power fixture only | from its authors [6] |
 
 ---
@@ -46,6 +47,16 @@ authors on reasonable request.
   `triage/manifest.csv`) go under `ASTER_X40_RAW` (default
   `external_data/prototype_fields_raw/`).
 - In file names these fields carry the historical tag `x40`.
+
+### Additional unseen slides
+
+Two further non-leukemic educational smears were acquired independently with
+the same ASTER setup and annotated as single-class WBC boxes. They comprise 79
+fields/127 boxes and 80 fields/114 boxes. Neither slide was used for training,
+validation, threshold selection or model selection. The acquired fields and
+annotations are available from the authors on reasonable request. This release
+provides the frozen evaluation script, compact metrics, and hashes of image names
+and label contents under `experiments/inter_slide_generalization/`.
 
 ## 2. LeukemiaAttri
 

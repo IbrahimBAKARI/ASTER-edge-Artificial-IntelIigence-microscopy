@@ -35,7 +35,7 @@ the add-on through the ×40 dry objective (*prototype fields* in the article).
 |---|---|---|
 | `domain_transfer_12runs.json` | 12 YOLO11n recipes (4 training-data regimes × 3 `None`-box treatments) on the public test split of each recipe (`lld_test`) | § 1.1 |
 | `localizer_transfer_478/x40_eval.csv` | the same 12 recipes on the 478 prototype fields | § 1.1 |
-| `x40_testsplit/x40_testsplit.{csv,json}`, `x40_testsplit/deployed_after_adaptation.json` | candidate recipes before adaptation and the deployed model after adaptation, on the 104 held-out prototype test fields | § 1.2 |
+| `x40_testsplit/x40_testsplit.{csv,json}`, `x40_testsplit/deployed_after_adaptation.json` | candidate recipes before adaptation and the deployed model after adaptation, on the 104-field within-slide evaluation split | § 1.2 |
 | `x40_threshold/selection.json`, `curves.csv` | operating-point selection on the 43-field prototype validation split → conf 0.18 / NMS IoU 0.50 | § 1.3 |
 | `leukocyte_yield/summary.json`, `threshold_sweep.csv`, `detections.csv` | `evaluation/x40_yield.py` on the 104 test fields (predictions, scores, matches; no ground-truth box) | § 1.4 |
 | `embedded_campaign/dvfs/`, `embedded_campaign/pinned/` | isolated localizer, PyTorch vs TensorRT FP16 at imgsz 960 (latency and box parity), under frequency scaling and with pinned clocks | § 1.5, § 1.6 |

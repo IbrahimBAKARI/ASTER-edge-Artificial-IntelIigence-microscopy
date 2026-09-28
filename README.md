@@ -46,6 +46,7 @@ with exactly the models in `models/`.
 | `models/` | localizer weights, block-2 encoder / heads / grid / thresholds / OOD statistics, checksums — [`models/MODELS.md`](models/MODELS.md) |
 | `localizer_adaptation/` | how the localizer was adapted to the prototype fields (Colab notebook, split builder, evaluator) |
 | `evaluation/` | leukocyte yield of the deployed localizer |
+| `experiments/` | post hoc resolution control, progressive OOD perturbations, and frozen inter-slide evaluation, with notebooks, protocols and result files |
 | `scripts/` | on-device benchmarks (latency, energy), TensorRT engine builders, operating-point selection, campaign procedures |
 | `block2_development/` | block 2: pre-registration and amendments, training code and notebook, record of the training run, technical report, Jetson verification kit — [`block2_development/README.md`](block2_development/README.md) |
 | `results/` | every measured result — [`results/README.md`](results/README.md) |
@@ -65,6 +66,7 @@ cd models && shasum -a 256 -c SHA256SUMS.txt && cd ..
 .venv/bin/python run.py --input <folder of session fields> --session-id demo \
     --output results_sessions/demo --device cpu
 .venv/bin/python -m pytest tests/ -q
+.venv/bin/python experiments/verify_release_results.py
 ```
 
 Statuses: `completed` (a label, possibly `indeterminate`), `insufficient_evidence`
@@ -81,12 +83,15 @@ Details and intervals: [`docs/EVALUATION.md`](docs/EVALUATION.md).
 | Quantity | Value |
 |---|---|
 | Localizer, 12 recipes trained on public data: public test vs 478 prototype fields (mAP@50) | 0.914–0.939 vs 0.023–0.386 |
-| Localizer after mixed-replay adaptation, 104 held-out prototype test fields (mAP@50) | 0.371 → **0.982**; public test 0.934 → 0.925 |
+| Localizer after mixed-replay adaptation, 104-field within-slide evaluation split (mAP@50) | 0.371 → **0.982**; public test 0.934 → 0.925 |
+| Resolution control on the same 104 fields | source detector 0.372 at 640 and 0.502 at 960; adapted-640 detector **0.968** at 640 |
+| Frozen localizer on two entirely unseen slides (159 fields, 241 WBC) | pooled mAP@50 **0.904**; precision 0.934 and recall 0.768 at conf 0.18 |
 | Leukocyte yield at conf 0.18 | 1.76 WBC per field (57 / 114 / 227 fields for 100 / 200 / 400 leukocytes) |
 | Block 2, cAItomorph held-out test (409 patients), AUROC of P_abn, AML vs donors | **0.973** (0.937–0.998) |
 | Decision grid: specificity donors / reactive; sensitivity acute leukemia | 95/99, 39/42; 22/46 (44.5 % `indeterminate`) |
 | Jetson vs cloud run, 409 patients | 409/409 identical labels (TensorRT FP16 and PyTorch) |
 | Out-of-domain gate on the add-on's own non-leukemic fields | every session withheld (`out_of_domain`) |
+| Progressive OOD perturbation control | maximal blur rejected 20/20 donors and 10/10 AML bags; maximal color perturbation rejected 9/20 and 5/10 |
 | Block 2 on the device, 104-field session (183 crops) | 0.32 s of a 39.2 s analysis |
 | Board power: idle / camera / analysis loop | 5.23 / 5.68 / 7.70 W |
 

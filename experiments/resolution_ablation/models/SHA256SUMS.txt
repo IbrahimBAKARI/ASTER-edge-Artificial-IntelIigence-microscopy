@@ -1,0 +1,1 @@
+cfdd772e2849855f35aa1380e34282d9e69551eec02c8a5f579fa45912faa34f  wbc_detector_adapted_640.pt

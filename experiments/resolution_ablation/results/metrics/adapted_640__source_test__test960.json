@@ -1,0 +1,14 @@
+{
+  "signature": "de676a0f2b91ef1ff793457e4491c2511ad3d5f100339e18cc1d23cb833db22d",
+  "model": "adapted_640",
+  "provenance": "new_controlled_run",
+  "source_train_imgsz": 640,
+  "adaptation_imgsz": 640,
+  "eval_imgsz": 960,
+  "dataset": "source_test",
+  "weights_sha256": "cfdd772e2849855f35aa1380e34282d9e69551eec02c8a5f579fa45912faa34f",
+  "map50": 0.9170728731071512,
+  "map50_95": 0.48050777963454927,
+  "precision_at_evaluator_best_f1": 0.871966813018691,
+  "recall_at_evaluator_best_f1": 0.9270008894921558
+}
