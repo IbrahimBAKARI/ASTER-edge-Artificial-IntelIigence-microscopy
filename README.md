@@ -117,4 +117,5 @@ their own terms.
 
 ## Citation
 
-See [`CITATION.cff`](CITATION.cff).
+Release V1.1.0 is archived at [Zenodo DOI 10.5281/zenodo.23023344](https://doi.org/10.5281/zenodo.23023344).
+See [`CITATION.cff`](CITATION.cff) for the software and manuscript citation metadata.
